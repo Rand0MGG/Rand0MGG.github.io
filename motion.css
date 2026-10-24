@@ -1,0 +1,52 @@
+/* Swiss industrial motion: precise transitions and an explorable, layered diagram. */
+:root{--ease:cubic-bezier(.16,1,.3,1)}
+.hero-topline,.hero h1>span,.name-caption,.assembly,.hero-aside{animation:enter .9s var(--ease) both}
+.hero h1>span:nth-child(2){animation-delay:.12s}.name-caption{animation-delay:.22s}.assembly{animation-delay:.3s}.hero-aside{animation-delay:.4s}
+.hero h1>span{transform-origin:left bottom}
+.assembly-stack{transform:rotateX(calc(56deg + var(--pointer-y,0deg))) rotateZ(calc(-33deg + var(--pointer-x,0deg)));transition:transform .7s var(--ease);animation:assembly-drift 7s ease-in-out infinite;will-change:transform}
+.assembly.is-compact .assembly-stack,.assembly:focus-within .assembly-stack{animation-play-state:paused}
+.assembly-layer:hover{filter:brightness(1.04)}.assembly-layer:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+.mini-wave i{animation:wave 1.1s ease-in-out infinite alternate;transform-origin:center}.mini-wave i:nth-child(2n){animation-delay:-.7s}.mini-wave i:nth-child(3n){animation-delay:-.3s}
+.chip>span{animation:chip-spin 12s linear infinite}
+.citation-chips span{animation:citation-glow 4s ease-in-out infinite}.citation-chips span:nth-child(2){animation-delay:.6s}.citation-chips span:nth-child(3){animation-delay:1.2s}
+.draft-lines{animation:drawing-in 1.8s ease-out both}.draft-lines circle{animation:rotate-guide 50s linear infinite;transform-origin:50% 50%}
+.assembly-selectors button,.agent-replay,.source-tabs button,.agent-steps button,.model-switch button,.lab-tabs button{transition:background .3s,color .3s,border-color .3s}
+.assembly-selectors button:hover{background:#d7d3c7}.agent-replay:hover{background:var(--ink);color:var(--paper)}
+.button{transition:background .35s,color .35s,transform .35s}.primary:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}.secondary:hover{background:var(--ink);color:var(--paper)}
+.button>span,.text-link>span,.repo-link,.discipline-links a>span{transition:transform .45s var(--ease)}.button:hover>span{transform:translate(3px,-2px)}.text-link:hover>span,.repo-link:hover,.discipline-links a:hover>span{transform:translate(4px,-4px)}
+.discipline-links a{transition:padding .4s var(--ease),background .4s}.discipline-links a:hover{padding-left:7px;background:#dcd8cd}
+.hero-foot>a>span{animation:scroll-nudge 2.3s ease-in-out infinite}
+.js .reveal{opacity:0;transform:translateY(25px);transition:opacity .85s var(--ease),transform .85s var(--ease)}.js .reveal.visible{opacity:1;transform:none}
+.project:nth-child(2){transition-delay:.1s}
+.screenshot-button img{transition:transform .9s var(--ease),filter .6s}.screenshot-button:hover img{transform:scale(1.035);filter:saturate(1)}.screen-label{position:relative;z-index:1}
+.project-points>div,.skill-row{transition:background .4s,padding .4s var(--ease)}.project-points>div:hover,.skill-row:hover{background:#ddd9cc;padding-left:8px}
+.skill-items span{transition:color .3s,translate .3s}.skill-items span:hover{color:var(--orange-dark);translate:0 -2px}
+.is-running .packet{opacity:1;animation:packet-travel 1.5s linear infinite}.packet:nth-child(4){animation-delay:-.5s}.packet:nth-child(6){animation-delay:-1s}
+.graph-source{transition:background .45s,border-color .45s}.is-running .graph-core{animation:core-pulse 1.5s ease-in-out infinite}
+.is-running .tool-detail:not(.tool-read){opacity:.45}.tool-detail{transition:opacity .4s}
+.is-streaming .answer-text:after{content:'▍';color:var(--orange);animation:blink .7s steps(1) infinite}
+.is-streaming .source-tabs,.is-streaming .source-quote{opacity:.25}.source-tabs,.source-quote{transition:opacity .5s}
+.metric-track i{transition:width .9s var(--ease)}.metric-track i:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#fff8,transparent);animation:bar-shine 4s ease-in-out infinite}
+.pipeline b{animation:pipeline-pulse 2.5s ease-in-out infinite}.pipeline b:nth-of-type(2){animation-delay:.4s}.pipeline b:nth-of-type(3){animation-delay:.8s}
+.email-link{position:relative}.email-link:after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:1px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}.email-link:hover:after{transform:scaleX(1)}
+dialog[open]{animation:dialog-in .35s var(--ease)}dialog[open]::backdrop{animation:fade-in .3s}
+.terminal-output>div{animation:log-in .35s var(--ease)}.terminal-shortcuts button{transition:background .2s}.terminal-shortcuts button:hover{background:var(--orange)}
+.page-hidden *, .page-hidden *:before, .page-hidden *:after,.scene-paused *, .scene-paused *:before,.scene-paused *:after{animation-play-state:paused!important}
+@keyframes enter{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+@keyframes assembly-drift{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@keyframes wave{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+@keyframes chip-spin{to{rotate:360deg}}
+@keyframes citation-glow{50%{background:#f5763266;border-color:var(--orange)}}
+@keyframes drawing-in{from{opacity:0;stroke-dashoffset:50}to{opacity:1;stroke-dashoffset:0}}
+@keyframes rotate-guide{to{rotate:360deg}}
+@keyframes scroll-nudge{50%{transform:translateY(4px)}}
+@keyframes packet-travel{to{stroke-dashoffset:0}}
+@keyframes core-pulse{50%{box-shadow:0 0 0 6px #ed510b14;rotate:90deg}}
+@keyframes blink{50%{opacity:0}}
+@keyframes bar-shine{0%,30%{transform:translateX(-100%)}75%,100%{transform:translateX(100%)}}
+@keyframes pipeline-pulse{50%{opacity:.3;translate:4px 0}}
+@keyframes dialog-in{from{opacity:0;transform:translateY(15px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes log-in{from{opacity:0;transform:translateX(-7px)}to{opacity:1;transform:none}}
+@media(max-width:700px){.project-points>div:hover,.skill-row:hover{padding-left:0}.project:nth-child(2){transition-delay:0s}}
+@media print{*,*:before,*:after{animation:none!important;transition:none!important}.js .reveal{opacity:1;transform:none}.hero h1>span,.hero-aside,.name-caption{opacity:1;transform:none}}

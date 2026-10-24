@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="耿锐的个人作品集：AgentScribe 课程 Agent、车辆重识别与在线检索，以及 BMC 企业 AI 平台实习经历。">
+  <meta name="theme-color" content="#e8e6df">
+  <title>耿锐 Rui Geng — Projects & Practice</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./motion.css">
+  <script src="./content.js" defer></script>
+  <script src="./app.js" defer></script>
+  <script src="./motion.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至正文</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <header class="site-header section-width">
+    <a class="brand" href="#home" aria-label="回到首页">RUI GENG <span data-field="name">耿锐</span></a>
+    <nav aria-label="主导航"><a href="#projects">PROJECTS <span>作品</span></a><a href="#journey">ABOUT <span>经历</span></a><a href="#contact">CONTACT <span>联系</span></a></nav>
+    <button class="command-open" type="button" aria-label="打开命令终端">⌘ <span>COMMAND</span></button>
+    <span class="header-index" aria-hidden="true">PORTFOLIO / 2026</span>
+  </header>
+  <main id="main">
+    <section class="hero section-width" id="home" aria-labelledby="hero-title">
+      <div class="hero-main">
+        <div class="hero-topline"><span>AI / VISION / ENGINEERING</span><span>SELECTED WORK — 01 / 02</span></div>
+        <div class="hero-name">
+          <h1 id="hero-title" aria-label="Rui Geng 耿锐"><span aria-hidden="true">RUI</span><span aria-hidden="true">GENG<span class="name-period">.</span></span></h1>
+          <div class="name-caption"><span data-field="name">耿锐</span><p>从具体问题出发，<br>把想法做成可使用的作品。</p></div>
+        </div>
+        <figure class="assembly" aria-label="AgentScribe 工作流程的交互拆解图">
+          <div class="assembly-heading"><span>FIG. 01 / AGENTSCRIBE</span><button id="assembly-toggle" type="button" aria-pressed="true">收起分层 ↙</button></div>
+          <div class="assembly-stage">
+            <svg class="draft-lines" viewBox="0 0 420 370" aria-hidden="true"><path d="M30 230 210 320 390 230M210 25V346M45 102 370 265M365 75 65 285" /><path class="dimension" d="M30 68V270M24 68H36M24 270H36M60 326H365M60 320V332M365 320V332" /><circle cx="210" cy="187" r="135"/></svg>
+            <div class="assembly-stack">
+              <button class="assembly-layer material-layer" data-layer="0" type="button" aria-label="查看课程材料层" aria-pressed="true"><span class="layer-header">01 / COURSE MATERIALS <i>↗</i></span><span class="mini-docs"><span><b>PDF</b><i></i><i></i><i></i><small>课件</small></span><span><b>TXT</b><em class="mini-wave"><i></i><i></i><i></i><i></i><i></i><i></i></em><small>转写</small></span><span><b>MD</b><i></i><i></i><i></i><small>笔记</small></span></span></button>
+              <button class="assembly-layer tool-layer" data-layer="1" type="button" aria-label="查看 Agent 工具调用层" aria-pressed="false"><span class="layer-header">02 / TOOL CALLS <i>↗</i></span><span class="chip"><span>✳</span><b>COURSE AGENT</b><small>READ → REASON</small></span><span class="chip-trace" aria-hidden="true"></span></button>
+              <button class="assembly-layer answer-layer" data-layer="2" type="button" aria-label="查看回答与引用层" aria-pressed="false"><span class="layer-header">03 / ANSWER + SOURCES <i>↗</i></span><span class="answer-lines"><i></i><i></i><i></i></span><span class="citation-chips"><span>[1] 课件</span><span>[2] 转写</span><span>[3] 笔记</span></span></button>
+            </div>
+            <span class="drawing-axis axis-one" aria-hidden="true">INPUT</span><span class="drawing-axis axis-two" aria-hidden="true">OUTPUT</span>
+          </div>
+          <figcaption><div class="assembly-selectors" role="group" aria-label="选择流程层"><button type="button" data-layer="0" aria-pressed="true">01 材料</button><button type="button" data-layer="1" aria-pressed="false">02 工具</button><button type="button" data-layer="2" aria-pressed="false">03 引用</button></div><p id="assembly-description" role="status">课件、课堂转写与笔记，成为回答问题的依据。</p><span class="diagram-note">AgentScribe 功能示意 · 点击分层查看</span></figcaption>
+        </figure>
+      </div>
+      <aside class="hero-aside">
+        <div class="profile-id"><img src="./assets/portrait.png" alt="耿锐的证件照" width="64" height="82"><div><span class="tiny-label">EDUCATION / 2026</span><h2>City University<br>of Hong Kong</h2><p>人工智能 · 硕士在读</p></div></div>
+        <div class="discipline-links"><a href="#agentscribe"><span>↗</span> AGENT <small>01</small></a><a href="#vehicle-reid"><span>↗</span> VISION <small>02</small></a><a href="#journey"><span>↗</span> ENGINEERING <small>03</small></a></div>
+        <p class="hero-intro" data-field="introduction"></p>
+        <div class="hero-actions"><a class="button primary" href="#contact">GET IN TOUCH <span>↗</span></a><a class="button secondary pdf-link" href="./assets/Rui-Geng-Resume.pdf" download>下载简历 / CV <span>↓</span></a></div>
+      </aside>
+      <div class="hero-foot"><span>思想 → 实验 → 应用</span><a href="#projects">SCROLL TO EXPLORE <span>↓</span></a><span>PERSONAL PORTFOLIO © 2026</span></div>
+    </section>
+    <section class="projects-section section-width" id="projects" aria-labelledby="projects-title">
+      <div class="section-kicker"><h2 id="projects-title">SELECTED PROJECTS <span>精选项目</span></h2><span>01 — 02 / FROM IDEA TO APPLICATION</span></div>
+      <div class="project-grid">
+        <article class="project reveal" id="agentscribe">
+          <div class="project-heading"><span class="project-number" aria-hidden="true">01</span><div><span class="tiny-label">AGENT APPLICATION</span><h3>AgentScribe</h3><p class="project-subtitle" data-label="agentscribe"></p></div><a class="repo-link" data-repo="agentscribe" target="_blank" rel="noopener noreferrer" aria-label="查看 AgentScribe GitHub 仓库">↗</a></div>
+          <button class="screenshot-button" type="button" data-image="agentscribe" aria-label="放大 AgentScribe 应用截图"><span class="screen-label"><span>APPLICATION / 实际界面</span><span>EXPAND ↗</span></span><img src="./assets/agentscribe.png" alt="AgentScribe 实际应用界面，展示双语记录、录音列表和录音控制，使用示例内容" width="1350" height="975" loading="lazy"></button>
+          <p class="project-description" data-description="agentscribe"></p>
+          <dl class="project-points" data-points="agentscribe"></dl>
+          <div class="project-bottom"><div class="tags" data-tags="agentscribe"></div><button class="text-link" data-open-lab="agent" type="button">体验 Agent 工作流 <span>↗</span></button></div>
+        </article>
+        <article class="project reveal" id="vehicle-reid">
+          <div class="project-heading"><span class="project-number" aria-hidden="true">02</span><div><span class="tiny-label">VISION & RETRIEVAL</span><h3>Vehicle ReID</h3><p class="project-subtitle" data-label="vehicle-reid"></p></div><a class="repo-link" data-repo="vehicle-reid" target="_blank" rel="noopener noreferrer" aria-label="查看 Vehicle ReID GitHub 仓库">↗</a></div>
+          <button class="screenshot-button reid-screenshot" type="button" data-image="vehicle-reid" aria-label="放大车辆检索系统截图"><span class="screen-label"><span>RETRIEVAL / 实际界面</span><span>EXPAND ↗</span></span><img src="./assets/vehicle-reid.png" alt="Vehicle ReID 系统实际截图，展示查询车辆、模型选择与检索模式" width="2550" height="1275" loading="lazy"></button>
+          <p class="project-description" data-description="vehicle-reid"></p>
+          <dl class="project-points" data-points="vehicle-reid"></dl>
+          <div class="project-bottom"><div class="tags" data-tags="vehicle-reid"></div><button class="text-link" data-open-lab="vision" type="button">对比模型实验 <span>↗</span></button></div>
+        </article>
+      </div>
+    </section>
+    <section class="lab-section section-width reveal" id="lab" aria-labelledby="lab-title">
+      <div class="lab-header"><div><span class="tiny-label">OPEN THE BLACK BOX.</span><h2 id="lab-title">拆开看看，<span>它如何工作。</span></h2></div><div class="lab-tabs" role="tablist" aria-label="选择项目演示"><button id="tab-agent" type="button" role="tab" data-lab="agent" aria-controls="lab-agent" aria-selected="true">01 / AGENT</button><button id="tab-vision" type="button" role="tab" data-lab="vision" aria-controls="lab-vision" aria-selected="false" tabindex="-1">02 / VISION</button></div></div>
+      <div id="lab-agent" class="lab-panel" role="tabpanel" aria-labelledby="tab-agent">
+        <div class="agent-demo"><div class="demo-top"><span><i class="status-dot" aria-hidden="true"></i> COURSE AGENT / PROCESS STUDY</span><span class="demo-badge">自编示例材料 · 非实时模型调用</span></div><div class="agent-question"><span class="tiny-label">QUESTION / 一个课堂问题</span><p id="agent-question"></p></div><div class="agent-steps" role="group" aria-label="查看 Agent 处理步骤"><button type="button" data-step="0" aria-pressed="true"><span>01</span> 提问</button><button type="button" data-step="1" aria-pressed="false"><span>02</span> 读材料</button><button type="button" data-step="2" aria-pressed="false"><span>03</span> 看引用</button></div><div id="agent-panel" class="agent-panel" aria-live="polite"></div><div class="demo-controls"><span>回答不是终点，能回到原文核对才完整。</span><button id="agent-next" type="button">查看读取工具 →</button></div></div>
+      </div>
+      <div id="lab-vision" class="lab-panel" role="tabpanel" aria-labelledby="tab-vision" hidden>
+        <div class="experiment"><div class="demo-top"><span><i class="status-dot" aria-hidden="true"></i> VEHICLE REID / EXPERIMENT LOG</span><span class="demo-badge">已记录的实验结果</span></div><div class="experiment-layout"><div class="experiment-controls"><span class="tiny-label">SAME DATASET. DIFFERENT MODELS.</span><h3>相似的车，<br>更准确地区分。</h3><p>切换基线与改进模型，比较相同实验条件下的检索表现。</p><div class="model-switch" role="group" aria-label="选择实验模型"><button type="button" data-model="baseline" aria-pressed="false">M0 / 基线</button><button type="button" class="active" data-model="improved" aria-pressed="true">M3 / SaGL</button></div></div><div class="experiment-results"><div class="metric-row"><div><span class="tiny-label">mAP</span><div class="metric-number"><span id="map-number">83.23</span><small>%</small></div><div class="metric-track"><i id="map-bar"></i></div></div><div><span class="tiny-label">mINP</span><div class="metric-number"><span id="minp-number">48.99</span><small>%</small></div><div class="metric-track"><i id="minp-bar"></i></div></div></div><div class="experiment-foot"><strong id="metric-delta">mAP +2.05 pp / mINP +4.77 pp</strong><span>VeRi-776 · seed3、seed4 平均<br>无 re-ranking · 基线 M0-F0，对比 M3-F1</span></div></div></div><div class="pipeline" aria-label="检索流程"><span>查询图片</span><b aria-hidden="true">→</b><span>特征提取</span><b aria-hidden="true">→</b><span>相似度排序</span><b aria-hidden="true">→</b><span>检索结果</span></div></div>
+      </div>
+    </section>
+    <section class="journey-section section-width" id="journey" aria-labelledby="journey-title">
+      <div class="section-heading reveal"><span class="section-number">03</span><div><span class="tiny-label">EDUCATION & EXPERIENCE</span><h2 id="journey-title">学习与实践。</h2></div><p>从计算机科学，到人工智能。<br>在真实问题里，继续学习。</p></div>
+      <div class="journey-grid reveal"><div class="journey-column"><span class="file-label">01 / EDUCATION</span><div id="education-list"></div></div><div class="journey-column"><span class="file-label">02 / EXPERIENCE</span><div class="journey-entry internship"><span class="entry-period" id="internship-period"></span><h3 id="internship-company"></h3><p id="internship-team"></p><div class="internship-project"><span class="status-dot" aria-hidden="true"></span> BMC · 企业 AI 服务管控平台</div><ul id="internship-bullets"></ul></div></div></div>
+    </section>
+    <section class="skills-section section-width" id="skills" aria-labelledby="skills-title"><div class="section-heading reveal"><span class="section-number">04</span><div><span class="tiny-label">TOOLS & METHODS</span><h2 id="skills-title">工具服务于问题。</h2></div></div><div class="skill-table reveal" id="skills-list"></div></section>
+    <section class="contact-section section-width reveal" id="contact" aria-labelledby="contact-title"><div class="contact-title"><span class="tiny-label">NEXT / 一次对话，新的可能</span><h2 id="contact-title">LET’S<br>TALK<span>↗</span></h2></div><div class="contact-details"><p>关于项目、想法，<br>或下一段实践。</p><a class="email-link" id="email-link"></a><div><button class="copy-email" id="copy-email" type="button" aria-label="复制邮箱">复制邮箱 ⧉</button><span class="copy-feedback" id="copy-feedback" role="status"></span></div><a class="button primary pdf-link" href="./assets/Rui-Geng-Resume.pdf" download>下载完整简历 <span>↓</span></a></div></section>
+  </main>
+  <footer class="section-width"><span>© 2026 RUI GENG / 耿锐</span><span>IDEAS → SYSTEMS → EXPERIENCES</span><a id="footer-github" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a id="phone-link"></a><a href="#home" aria-label="返回顶部">BACK TO TOP ↑</a></footer>
+  <dialog id="image-dialog" aria-labelledby="image-dialog-title"><div class="lightbox-toolbar"><span id="image-dialog-title"></span><button type="button" id="close-image" aria-label="关闭截图">关闭 ×</button></div><img id="lightbox-image" alt=""><p>项目实际截图；其中示例内容和相似度不代表全面准确率或当前实时推理结果。</p></dialog>
+  <dialog id="command-dialog" aria-labelledby="command-title"><div class="window-bar"><h2 id="command-title">RUI GENG / COMMAND LINE</h2><button type="button" id="close-command" aria-label="关闭命令终端">ESC ×</button></div><p class="terminal-intro">另一个探索入口。输入 help 查看命令。</p><div class="terminal-output" id="terminal-output" role="log" aria-label="命令输出" aria-live="polite"><div>✓ 2 projects loaded</div><div>about / projects / resume / help</div></div><form id="terminal-form" class="terminal-form"><label for="terminal-input" aria-label="终端命令">❯</label><input id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120" aria-label="输入终端命令" placeholder="help" enterkeyhint="go"><button type="submit" aria-label="执行命令">↵</button></form><div class="terminal-shortcuts" aria-label="快捷命令"><button type="button" data-command="about">about</button><button type="button" data-command="projects">projects</button><button type="button" data-command="resume">resume</button><button type="button" data-command="help">help</button></div></dialog>
+  <noscript><div class="noscript-note">交互内容需要 JavaScript。<a href="./assets/Rui-Geng-Resume.pdf">下载完整 PDF 简历</a>。</div></noscript>
+</body>
+</html>
