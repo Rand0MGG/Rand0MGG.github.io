@@ -5,7 +5,12 @@
   const assembly = $('.assembly');
   const stack = $('.assembly-stack');
   const toggle = $('#assembly-toggle');
-  const descriptions = [
+  const english = document.documentElement.lang.startsWith('en');
+  const descriptions = english ? [
+    'Slides, transcripts and notes provide the source material.',
+    'The agent opens the materials it needs to answer the question.',
+    'Each citation points back to the passage that supports the answer.'
+  ] : [
     '课件、课堂转写与笔记，成为回答问题的依据。',
     'Agent 根据问题调用读取工具，获取相关课程材料。',
     '回答附带材料来源，方便逐条回到原文核对。'
@@ -19,7 +24,7 @@
   toggle.addEventListener('click', () => {
     const compact = assembly.classList.toggle('is-compact');
     toggle.setAttribute('aria-pressed', String(!compact));
-    toggle.textContent = compact ? '展开分层 ↗' : '收起分层 ↙';
+    toggle.textContent = compact ? (english ? 'Expand layers ↗' : '展开分层 ↗') : (english ? 'Collapse layers ↙' : '收起分层 ↙');
   });
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   $('.assembly-stage').addEventListener('pointermove', event => {

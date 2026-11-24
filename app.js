@@ -2,15 +2,24 @@
   'use strict';
   const d = window.RESUME;
   if (!d) return;
+  const english = document.documentElement.lang.startsWith('en');
+  const ui = (zh, en) => english ? en : zh;
+  const pdfFilename = d.pdfFilename || '耿锐-简历.pdf';
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const el = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
   const splitBullet = value => { const at = value.indexOf('：'); return at < 0 ? ['', value] : [value.slice(0, at), value.slice(at + 1)]; };
   $$('[data-field]').forEach(node => { node.textContent = d[node.dataset.field] || ''; if (node.dataset.field === 'role') node.hidden = !d.role; });
-  $('#hero-title').setAttribute('aria-label', `${d.englishName} ${d.name}`);
-  $$('.pdf-link').forEach(link => { link.href = d.pdf; link.download = '耿锐-简历.pdf'; });
-  $('#email-link').textContent = d.email; $('#email-link').href = `mailto:${d.email}`;
-  $('#phone-link').textContent = d.phone; $('#phone-link').href = `tel:${d.phone}`;
+  $('#hero-title').setAttribute('aria-label', english ? d.name : `${d.englishName} ${d.name}`);
+  $$('.pdf-link').forEach(link => { link.href = d.pdf; link.download = pdfFilename; });
+  $$('#email-link, [data-email]').forEach(link => {
+    link.textContent = d.email;
+    link.href = 'mailto:' + d.email;
+  });
+  $$('#phone-link, [data-phone]').forEach(link => {
+    link.textContent = d.phone;
+    link.href = 'tel:' + d.phone.replace(/\s/g, '');
+  });
   $('#footer-github').href = d.github;
   for (const project of d.projects) {
     $(`[data-description="${project.id}"]`).textContent = project.description;
@@ -22,12 +31,15 @@
     (project.presentationBullets || project.bullets).forEach(([title, text]) => { const row = el('div'); row.append(el('dt', title), el('dd', text)); points.append(row); });
     const description = $(`[data-description="${project.id}"]`);
     const meta = el('div', undefined, 'project-meta');
-    meta.append(el('span', '我的工作'), el('p', project.contribution));
+    meta.append(el('span', ui('我的工作', 'My work')), el('p', project.contribution));
     if (project.period) meta.append(el('span', project.period, 'project-period'));
     description.after(meta);
-    const highlight = el('div', undefined, 'project-highlight');
-    highlight.append(el('strong', project.highlight), el('span', project.highlightNote));
-    meta.after(highlight);
+    if (project.highlight) {
+      const highlight = el('div', undefined, 'project-highlight');
+      highlight.append(el('strong', project.highlight), el('span', project.highlightNote));
+      meta.after(highlight);
+    }
+    if (!project.screenshots?.length) continue;
     const screenshot = $(`[data-image="${project.id}"]`);
     const image = $('img', screenshot);
     const gallery = el('div', undefined, 'gallery-selectors');
@@ -53,7 +65,7 @@
   });
   $('#internship-period').textContent = d.internship.period;
   $('#internship-company').textContent = d.internship.company;
-  $('#internship-team').textContent = `${d.internship.team} · ${d.internship.role}`;
+  $('#internship-team').textContent = [d.internship.team, d.internship.role].filter(Boolean).join(' · ');
   d.internship.bullets.forEach(value => {
     const [title, text] = splitBullet(value); const row = el('li');
     if (title) row.append(el('strong', title + '：'));
@@ -88,7 +100,7 @@
   const appendOutput = (text, className = 'terminal-result') => output.append(el('div', text, className));
   const appendLink = (text, href, download = false) => {
     const row = el('div', undefined, 'terminal-result'); const link = el('a', text); link.href = href;
-    if (download) link.download = '耿锐-简历.pdf';
+    if (download) link.download = pdfFilename;
     else if (href.startsWith('https:')) { link.target = '_blank'; link.rel = 'noopener noreferrer'; }
     row.append(link); output.append(row);
   };
@@ -98,15 +110,15 @@
     if (command.toLowerCase() === 'clear') { output.replaceChildren(); input.value = ''; return; }
     appendOutput(`~ ❯ ${command}`, 'terminal-command-echo');
     switch (command.toLowerCase()) {
-      case 'help': appendOutput('about / whoami · 个人信息'); appendOutput('projects · 项目   skills · 技能'); appendOutput('journey · 经历   contact · 联系'); appendOutput('resume · PDF    github · 仓库'); appendOutput('clear · 清屏   ↑/↓ · 历史命令'); break;
-      case 'about': case 'whoami': appendOutput(`${d.name} / ${d.englishName}`); if (d.role) appendOutput(d.role); appendOutput(d.introduction); break;
+      case 'help': appendOutput(ui('about / whoami · 个人信息', 'about / whoami · profile')); appendOutput(ui('projects · 项目   skills · 技能', 'projects · selected projects   skills · technical skills')); appendOutput(ui('journey · 经历   contact · 联系', 'journey · education and experience   contact · phone and email')); appendOutput(ui('resume · PDF    github · 仓库', 'resume · download CV   github · repositories')); appendOutput(ui('clear · 清屏   ↑/↓ · 历史命令', 'clear · clear output   ↑/↓ · command history')); break;
+      case 'about': case 'whoami': appendOutput(english ? d.name : `${d.name} / ${d.englishName}`); if (d.role) appendOutput(d.role); appendOutput(d.introduction); break;
       case 'projects': case 'ls': d.projects.forEach(project => appendLink(`${project.name} / ${project.label} ↗`, `#${project.id}`)); break;
-      case 'skills': d.skills.forEach(group => appendOutput(`${group.label}：${group.items.join(' · ')}`)); break;
-      case 'journey': appendOutput(`${d.internship.company} / ${d.internship.period}`); appendLink('查看教育与实习经历 ↓', '#journey'); break;
-      case 'contact': appendLink(d.email, `mailto:${d.email}`); break;
-      case 'resume': appendLink('↓ 下载最新 PDF 简历', d.pdf, true); break;
+      case 'skills': d.skills.forEach(group => appendOutput(`${group.label}${ui('：', ': ')}${group.items.join(' · ')}`)); break;
+      case 'journey': appendOutput(`${d.internship.company} / ${d.internship.period}`); appendLink(ui('查看教育与实习经历 ↓', 'Education and experience ↓'), '#journey'); break;
+      case 'contact': appendLink(d.email, `mailto:${d.email}`); appendLink(d.phone, $('#phone-link').href); break;
+      case 'resume': appendLink(ui('↓ 下载最新 PDF 简历', '↓ Download English CV (PDF)'), d.pdf, true); break;
       case 'github': appendLink('github.com/Rand0MGG ↗', d.github); break;
-      default: appendOutput(`未识别的命令：${command.slice(0, 50)}`); appendOutput('输入 help 查看可用命令。');
+      default: appendOutput(ui('未识别的命令：', 'Unknown command: ') + command.slice(0, 50)); appendOutput(ui('输入 help 查看可用命令。', 'Type help to see available commands.'));
     }
     while (output.childElementCount > 45) output.firstElementChild.remove();
     output.scrollTop = output.scrollHeight; input.value = '';
@@ -132,14 +144,14 @@
   graph.append(graphSources, wires, el('div', '✳', 'graph-core'), el('span', 'COURSE AGENT', 'graph-core-label'));
   $('.agent-steps').before(graph);
   const playback = el('div', undefined, 'agent-playback');
-  const runStatus = el('span', '准备就绪', 'run-status'); runStatus.setAttribute('role', 'status');
-  const replay = el('button', '▶ 播放完整流程', 'agent-replay'); replay.type = 'button';
+  const runStatus = el('span', ui('准备就绪', 'Ready'), 'run-status'); runStatus.setAttribute('role', 'status');
+  const replay = el('button', ui('▶ 播放完整流程', '▶ Play example'), 'agent-replay'); replay.type = 'button';
   playback.append(runStatus, replay); $('.agent-steps').before(playback);
   let demoTimers = []; let streamFrame = 0; let running = false; let autoPlayed = false;
   const cancelPlayback = () => {
     demoTimers.forEach(clearTimeout); demoTimers = []; cancelAnimationFrame(streamFrame); running = false;
     demo.classList.remove('is-running', 'is-streaming');
-    replay.textContent = '↻ 重播完整流程';
+    replay.textContent = ui('↻ 重播完整流程', '↻ Replay example');
     $('#agent-panel').setAttribute('aria-busy', 'false');
   };
   const schedule = (callback, delay) => demoTimers.push(setTimeout(callback, delay));
@@ -151,12 +163,12 @@
     $$('[data-step]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.step) === step)));
     const panel = $('#agent-panel'); panel.replaceChildren();
     if (step === 0) {
-      panel.append(el('p', '先确定问题，再读取相关材料。', 'panel-kicker'), el('p', '这个示例围绕同一个课堂问题，展示课件、转写和笔记如何为回答提供依据。'));
+      panel.append(el('p', ui('先确定问题，再读取相关材料。', 'How should the dataset be split?'), 'panel-kicker'), el('p', ui('这个示例围绕同一个课堂问题，展示课件、转写和笔记如何为回答提供依据。', 'Follow the question through the three supplied sources.')));
       const list = el('div', undefined, 'source-list');
-      example.sources.forEach(source => { const row = el('div', undefined, 'source-item'); row.append(el('span', source.name), el('span', '待读取')); list.append(row); });
+      example.sources.forEach(source => { const row = el('div', undefined, 'source-item'); row.append(el('span', source.name), el('span', ui('待读取', 'To read'))); list.append(row); });
       panel.append(list);
     } else if (step === 1) {
-      panel.append(el('p', '工具读取 · 展开查看示例原文', 'panel-kicker'));
+      panel.append(el('p', ui('工具读取 · 展开查看示例原文', 'Read tools · expand a source to inspect the passage'), 'panel-kicker'));
       example.sources.forEach(source => {
         const detail = el('details'); detail.className = 'tool-detail';
         const summary = el('summary', `${source.tool} / ${source.id}`);
@@ -164,7 +176,7 @@
       });
     } else {
       panel.append(el('p', example.answer, 'answer-text'));
-      const tabs = el('div', undefined, 'source-tabs'); tabs.setAttribute('role', 'group'); tabs.setAttribute('aria-label', '查看回答引用的材料');
+      const tabs = el('div', undefined, 'source-tabs'); tabs.setAttribute('role', 'group'); tabs.setAttribute('aria-label', ui('查看回答引用的材料', 'Sources cited in the answer'));
       const quote = el('blockquote', undefined, 'source-quote');
       const showSource = source => {
         $$('button', tabs).forEach(button => button.setAttribute('aria-pressed', String(button.dataset.source === source.id)));
@@ -173,17 +185,17 @@
       example.sources.forEach((source, index) => { const button = el('button', `[${index + 1}] ${source.name}`); button.type = 'button'; button.dataset.source = source.id; button.addEventListener('click', () => showSource(source)); tabs.append(button); });
       panel.append(tabs, quote); showSource(example.sources[0]);
     }
-    $('#agent-next').textContent = ['查看读取工具 →', '查看回答与引用 →', '重新查看流程 ↻'][step];
+    $('#agent-next').textContent = [ui('查看读取工具 →', 'Read the sources →'), ui('查看回答与引用 →', 'See the cited answer →'), ui('重新查看流程 ↻', 'Start again ↻')][step];
     panel.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
   };
-  const manuallySelectStep = step => { autoPlayed = true; cancelPlayback(); renderAgentStep(step); runStatus.textContent = ['查看问题', '查看工具与原文', '回答与引用就绪'][step]; };
+  const manuallySelectStep = step => { autoPlayed = true; cancelPlayback(); renderAgentStep(step); runStatus.textContent = [ui('查看问题', 'Question'), ui('查看工具与原文', 'Tools and sources'), ui('回答与引用就绪', 'Answer and sources ready')][step]; };
   $$('[data-step]').forEach(button => button.addEventListener('click', () => manuallySelectStep(Number(button.dataset.step))));
   $('#agent-next').addEventListener('click', () => manuallySelectStep((agentStep + 1) % 3)); renderAgentStep(0);
   const playAgent = () => {
     autoPlayed = true; cancelPlayback(); running = true; demo.classList.add('is-running');
-    replay.textContent = '↻ 重新播放'; runStatus.textContent = '01 / 理解问题'; renderAgentStep(0);
+    replay.textContent = ui('↻ 重新播放', '↻ Replay'); runStatus.textContent = ui('01 / 理解问题', '01 / Read the question'); renderAgentStep(0);
     schedule(() => {
-      renderAgentStep(1); runStatus.textContent = '02 / 读取课程材料';
+      renderAgentStep(1); runStatus.textContent = ui('02 / 读取课程材料', '02 / Read course materials');
       example.sources.forEach((source, index) => schedule(() => {
         $$('.graph-source')[index].classList.add('is-read');
         const detail = $$('.tool-detail')[index]; detail.open = true; detail.classList.add('tool-read');
@@ -191,7 +203,7 @@
       }, index * 720 + 180));
     }, 950);
     schedule(() => {
-      renderAgentStep(2); demo.classList.add('is-streaming'); runStatus.textContent = '03 / 组织回答与引用';
+      renderAgentStep(2); demo.classList.add('is-streaming'); runStatus.textContent = ui('03 / 组织回答与引用', '03 / Write the answer and cite sources');
       const answer = $('.answer-text'); const start = performance.now();
       answer.textContent = '';
       $('#agent-panel').setAttribute('aria-busy', 'true');
@@ -199,7 +211,7 @@
         const progress = Math.min(1, (now - start) / 2300);
         answer.textContent = example.answer.slice(0, Math.floor(example.answer.length * progress));
         if (progress < 1) streamFrame = requestAnimationFrame(stream);
-        else { cancelPlayback(); runStatus.textContent = '完成 / 点击引用，核对原文'; }
+        else { cancelPlayback(); runStatus.textContent = ui('完成 / 点击引用，核对原文', 'Done · select a citation to read its source'); }
       };
       streamFrame = requestAnimationFrame(stream);
     }, 3600);
@@ -208,10 +220,10 @@
   if ('IntersectionObserver' in window) {
     const demoObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting && !autoPlayed && !document.hidden) playAgent();
-      else if (!entry.isIntersecting && running) { cancelPlayback(); renderAgentStep(2); runStatus.textContent = '回答与引用就绪'; }
+      else if (!entry.isIntersecting && running) { cancelPlayback(); renderAgentStep(2); runStatus.textContent = ui('回答与引用就绪', 'Answer and sources ready'); }
     }), { threshold: .35 }); demoObserver.observe(demo);
   }
-  document.addEventListener('visibilitychange', () => { if (document.hidden && running) { cancelPlayback(); renderAgentStep(2); runStatus.textContent = '回答与引用就绪'; } });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && running) { cancelPlayback(); renderAgentStep(2); runStatus.textContent = ui('回答与引用就绪', 'Answer and sources ready'); } });
 
   const counters = new Map();
   const animateValue = (node, value) => {
@@ -226,7 +238,7 @@
     $$('[data-model]').forEach(button => { const active = button.dataset.model === key; button.classList.toggle('active', active); button.setAttribute('aria-pressed', String(active)); });
     animateValue($('#map-number'), model.map); animateValue($('#minp-number'), model.minp);
     $('#map-bar').style.width = `${model.map}%`; $('#minp-bar').style.width = `${model.minp}%`;
-    $('#metric-delta').textContent = key === 'improved' ? `mAP +${(d.experiment.improved.map - d.experiment.baseline.map).toFixed(2)} pp / mINP +${(d.experiment.improved.minp - d.experiment.baseline.minp).toFixed(2)} pp` : 'M0-F0 · SBS 基线 / 对照结果';
+    $('#metric-delta').textContent = key === 'improved' ? `mAP +${(d.experiment.improved.map - d.experiment.baseline.map).toFixed(2)} pp / mINP +${(d.experiment.improved.minp - d.experiment.baseline.minp).toFixed(2)} pp` : ui('M0-F0 · SBS 基线 / 对照结果', 'Baseline model · SBS');
   };
   $$('[data-model]').forEach(button => button.addEventListener('click', () => selectModel(button.dataset.model))); selectModel('improved');
   const dialog = $('#image-dialog'); let previousFocus;
@@ -243,8 +255,8 @@
     try {
       if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(d.email);
       else { const field = el('textarea', d.email); field.style.cssText = 'position:fixed;top:0;left:-9999px'; document.body.append(field); field.select(); const ok = document.execCommand('copy'); field.remove(); if (!ok) throw new Error('copy unavailable'); }
-      $('#copy-feedback').textContent = '已复制';
-    } catch (_) { $('#copy-feedback').textContent = '请选中邮箱手动复制'; }
+      $('#copy-feedback').textContent = ui('已复制', 'Copied');
+    } catch (_) { $('#copy-feedback').textContent = ui('请选中邮箱手动复制', 'Select the email address to copy it.'); }
     clearTimeout(copyTimer); copyTimer = setTimeout(() => { $('#copy-feedback').textContent = ''; }, 3500);
   });
 
@@ -252,7 +264,7 @@
   const labTabs = $$('[data-lab]');
   const selectLab = key => {
     if (!['agent', 'vision'].includes(key)) return;
-    if (key === 'vision' && running) { cancelPlayback(); renderAgentStep(2); runStatus.textContent = '回答与引用就绪'; }
+    if (key === 'vision' && running) { cancelPlayback(); renderAgentStep(2); runStatus.textContent = ui('回答与引用就绪', 'Answer and sources ready'); }
     labTabs.forEach(button => {
       const active = button.dataset.lab === key;
       button.setAttribute('aria-selected', String(active)); button.tabIndex = active ? 0 : -1;
@@ -268,8 +280,14 @@
       selectLab(labTabs[next].dataset.lab); labTabs[next].focus();
     });
   });
-  $$('[data-open-lab]').forEach(button => button.addEventListener('click', () => {
+  $$('[data-open-lab]').forEach(button => button.addEventListener('click', event => {
+    event.preventDefault();
     selectLab(button.dataset.openLab); $('#lab').scrollIntoView({behavior:'smooth',block:'start'});
+    if (button.dataset.cite) {
+      manuallySelectStep(2);
+      const citation = $$('.source-tabs button').find(item => item.dataset.source === button.dataset.cite);
+      if (citation) { citation.click(); citation.focus({preventScroll:true}); return; }
+    }
     $('#tab-' + button.dataset.openLab).focus({preventScroll:true});
   }));
   const commandDialog = $('#command-dialog');

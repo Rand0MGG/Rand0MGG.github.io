@@ -77,7 +77,7 @@ window.RESUME = {
       "name": "AgentScribe",
       "label": "课程 Agent 与双语字幕助手",
       "github": "https://github.com/Rand0MGG/agentscribe-local",
-      "period": "",
+      "period": "2026.09 - 至今",
       "tags": [
         "Python",
         "Deep Agents",
@@ -147,7 +147,7 @@ window.RESUME = {
         ],
         [
           "实验结果",
-          "VeRi-776 上 mAP 从 81.18% 提升至 83.23%（+2.05 个百分点；seed3/4 均值，未重排序）。"
+          "VeRi-776 上 mAP 从 81.18% 提升至 83.23%（+2.05 个百分点）。"
         ]
       ]
     }
@@ -155,37 +155,37 @@ window.RESUME = {
   "skills": [
     {
       "group": "language / services",
-      "label": "编程与服务",
+      "label": "编程与工程",
       "items": [
         "Python",
+        "C/C++",
         "Go",
         "FastAPI",
-        "Gin",
         "MySQL",
-        "Redis",
         "Git",
         "Linux"
       ]
     },
     {
       "group": "tools / agents",
-      "label": "AI 应用",
+      "label": "LLM 与 Agent",
       "items": [
-        "Deep Agents",
-        "工具调用",
-        "引用校验",
-        "语音识别与翻译",
-        "PySide6"
+        "RAG",
+        "混合检索",
+        "上下文构建",
+        "LLM API 接入",
+        "工具调用"
       ]
     },
     {
       "group": "vision / retrieval",
-      "label": "模型与检索",
+      "label": "视觉与检索",
       "items": [
         "PyTorch",
-        "车辆重识别",
-        "向量检索",
-        "模型评估与消融实验"
+        "FastReID",
+        "OpenCV",
+        "特征提取与相似度检索",
+        "模型训练与评估"
       ]
     }
   ],

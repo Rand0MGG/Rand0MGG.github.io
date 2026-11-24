@@ -1,0 +1,46 @@
+.hero-name .name-caption > span {
+  font: 600 .85rem/1.45 var(--mono);
+  letter-spacing: normal;
+}
+.hero-aside .profile-id h2 { overflow-wrap: normal; }
+.hk-phone { display: block; width: fit-content; margin: .65rem 0; }
+.hk-direct a { display: block; width: fit-content; max-width: 100%; overflow-wrap: anywhere; }
+.hk-direct a:hover { text-decoration: underline; }
+.contact-details .email-link { overflow-wrap: anywhere; }
+.hk-proof {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: clamp(1rem, 3vw, 2.2rem);
+  min-height: 14rem;
+  border: 1px solid var(--line);
+  background: #f4f2eb;
+}
+.citation-proof p {
+  margin: 0;
+  max-width: 24ch;
+  font-size: clamp(1.25rem, 2vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -.025em;
+}
+.source-ref { font: 600 .75rem/1.5 var(--mono); text-decoration: underline; text-underline-offset: .2em; }
+.matches { display: grid; grid-template-columns: repeat(3, 1fr); gap: .35rem; }
+/* The three tiles are crops from the actual results screenshot. */
+.matches span {
+  aspect-ratio: 83 / 65;
+  background: url('../assets/vehicle-reid-results.png') no-repeat 19.8% 84.6% / 831.32% auto;
+}
+.matches span:nth-child(2) { background-position-x: 34.8%; }
+.matches span:nth-child(3) { background-position-x: 49.8%; }
+.skill-path:empty, .project-points:empty { display: none; }
+.lab-header h2, .journey-entry h3 { overflow-wrap: break-word; }
+@media (max-width: 600px) {
+  .project-meta { grid-template-columns: 1fr; }
+  .project-meta .project-period { grid-column: 1; }
+  .hero-actions .button { min-width: 0; }
+  .experiment-foot { flex-wrap: wrap; }
+  .hero-aside .profile-id h2 { font-size: 1rem; }
+  .assembly-selectors button { padding-inline: .3em; }
+}
