@@ -6,7 +6,7 @@
 .hero-aside .discipline-links, .hero-aside .hero-intro, .hero-aside .hero-actions { margin: 0; }
 .discipline-links a { display: grid; grid-template-columns: minmax(0, 31%) minmax(0, 1fr) auto; gap: .55rem; align-items: center; padding-block: .8rem; }
 .discipline-links picture { display: block; }
-.discipline-links img { display: block; width: 100%; aspect-ratio: 1.5; object-fit: cover; border: 1px solid var(--line); }
+.discipline-links img { display: block; width: 100%; height: auto; aspect-ratio: 1.5; object-fit: cover; border: 1px solid var(--line); }
 .discipline-links a > .shortcut-label { font: 700 .9rem/1.12 var(--sans); letter-spacing: -.02em; color: var(--ink); }
 .shortcut-label small { display: block; margin-top: .25rem; font: 400 .66rem/1.35 var(--sans); color: var(--muted); }
 .discipline-links i, .expand-mark { color: var(--orange-dark); font-style: normal; }
@@ -99,6 +99,17 @@ html:not(.portfolio-ready) #lab-vision[hidden] { display: block; }
   .skill-row h3 { margin: 0; }
   .agent-panel { min-height: 0; }
   .contact-section { gap: 1rem; }
+}
+@media (max-width: 440px) {
+  .project-heading { display: grid; grid-template-columns: 2.7rem minmax(0, 1fr) 1.4rem; gap: .45rem; min-height: 0; }
+  .project-number { font-size: 2.5rem; letter-spacing: -.07em; }
+  .project-heading > div { padding-left: .65rem; }
+  .project h3 { font-size: clamp(1.2rem, 5.8vw, 1.55rem); letter-spacing: -.04em; }
+  .project-heading .repo-link { padding: 0; }
+  .hero .assembly-stage { height: 270px; }
+  .hero .assembly-stack { --spread: 74px; }
+  .hero .assembly.is-compact .assembly-stack { --spread: 12px; }
+  .assembly-selectors button { padding-inline: .2rem; }
 }
 @media print {
   .gallery-strip, .expand-mark { display: none; }
