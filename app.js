@@ -9,74 +9,77 @@
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const el = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
   const splitBullet = value => { const at = value.indexOf('：'); return at < 0 ? ['', value] : [value.slice(0, at), value.slice(at + 1)]; };
-  $$('[data-field]').forEach(node => { node.textContent = d[node.dataset.field] || ''; if (node.dataset.field === 'role') node.hidden = !d.role; });
-  $('#hero-title').setAttribute('aria-label', english ? d.name : `${d.englishName} ${d.name}`);
-  $$('.pdf-link').forEach(link => { link.href = d.pdf; link.download = pdfFilename; });
-  $$('#email-link, [data-email]').forEach(link => {
-    link.textContent = d.email;
-    link.href = 'mailto:' + d.email;
-  });
-  $$('#phone-link, [data-phone]').forEach(link => {
-    link.textContent = d.phone;
-    link.href = 'tel:' + d.phone.replace(/\s/g, '');
-  });
-  $('#footer-github').href = d.github;
-  for (const project of d.projects) {
-    $(`[data-description="${project.id}"]`).textContent = project.description;
-    $(`[data-label="${project.id}"]`).textContent = project.label;
-    $(`[data-repo="${project.id}"]`).href = project.github;
-    const tags = $(`[data-tags="${project.id}"]`);
-    project.tags.forEach(tag => tags.append(el('span', tag)));
-    const points = $(`[data-points="${project.id}"]`);
-    (project.presentationBullets || project.bullets).forEach(([title, text]) => { const row = el('div'); row.append(el('dt', title), el('dd', text)); points.append(row); });
-    const description = $(`[data-description="${project.id}"]`);
-    const meta = el('div', undefined, 'project-meta');
-    meta.append(el('span', ui('我的工作', 'My work')), el('p', project.contribution));
-    if (project.period) meta.append(el('span', project.period, 'project-period'));
-    description.after(meta);
-    if (project.highlight) {
-      const highlight = el('div', undefined, 'project-highlight');
-      highlight.append(el('strong', project.highlight), el('span', project.highlightNote));
-      meta.after(highlight);
-    }
-    if (!project.screenshots?.length) continue;
-    const screenshot = $(`[data-image="${project.id}"]`);
-    const image = $('img', screenshot);
-    const gallery = el('div', undefined, 'gallery-selectors');
-    gallery.setAttribute('role', 'group'); gallery.setAttribute('aria-label', `${project.name} 界面截图`);
-    const selectScreenshot = index => {
-      const shot = project.screenshots[index];
-      image.src = shot.src; image.alt = shot.alt; image.width = shot.width; image.height = shot.height;
-      screenshot.dataset.caption = `${project.name} / ${shot.label}`;
-      screenshot.setAttribute('aria-label', `放大 ${project.name} ${shot.label}截图`);
-      $$('.gallery-choice', gallery).forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-    };
-    project.screenshots.forEach((shot, index) => {
-      const button = el('button', `${String(index + 1).padStart(2, '0')} / ${shot.label}`, 'gallery-choice');
-      button.type = 'button'; button.addEventListener('click', () => selectScreenshot(index)); gallery.append(button);
+  // The English edition ships the CV as readable HTML. The Chinese edition populates it here.
+  if (!$('main[data-rendered-cv]')) {
+    $$('[data-field]').forEach(node => { node.textContent = d[node.dataset.field] || ''; if (node.dataset.field === 'role') node.hidden = !d.role; });
+    $('#hero-title').setAttribute('aria-label', english ? d.name : `${d.englishName} ${d.name}`);
+    $$('.pdf-link').forEach(link => { link.href = d.pdf; link.download = pdfFilename; });
+    $$('#email-link, [data-email]').forEach(link => {
+      link.textContent = d.email;
+      link.href = 'mailto:' + d.email;
     });
-    screenshot.after(gallery); selectScreenshot(0);
+    $$('#phone-link, [data-phone]').forEach(link => {
+      link.textContent = d.phone;
+      link.href = 'tel:' + d.phone.replace(/\s/g, '');
+    });
+    $('#footer-github').href = d.github;
+    for (const project of d.projects) {
+      $(`[data-description="${project.id}"]`).textContent = project.description;
+      $(`[data-label="${project.id}"]`).textContent = project.label;
+      $(`[data-repo="${project.id}"]`).href = project.github;
+      const tags = $(`[data-tags="${project.id}"]`);
+      project.tags.forEach(tag => tags.append(el('span', tag)));
+      const points = $(`[data-points="${project.id}"]`);
+      (project.presentationBullets || project.bullets).forEach(([title, text]) => { const row = el('div'); row.append(el('dt', title), el('dd', text)); points.append(row); });
+      const description = $(`[data-description="${project.id}"]`);
+      const meta = el('div', undefined, 'project-meta');
+      meta.append(el('span', ui('我的工作', 'My work')), el('p', project.contribution));
+      if (project.period) meta.append(el('span', project.period, 'project-period'));
+      description.after(meta);
+      if (project.highlight) {
+        const highlight = el('div', undefined, 'project-highlight');
+        highlight.append(el('strong', project.highlight), el('span', project.highlightNote));
+        meta.after(highlight);
+      }
+      if (!project.screenshots?.length) continue;
+      const screenshot = $(`[data-image="${project.id}"]`);
+      const image = $('img', screenshot);
+      const gallery = el('div', undefined, 'gallery-selectors');
+      gallery.setAttribute('role', 'group'); gallery.setAttribute('aria-label', `${project.name} 界面截图`);
+      const selectScreenshot = index => {
+        const shot = project.screenshots[index];
+        image.src = shot.src; image.alt = shot.alt; image.width = shot.width; image.height = shot.height;
+        screenshot.dataset.caption = `${project.name} / ${shot.label}`;
+        screenshot.setAttribute('aria-label', `放大 ${project.name} ${shot.label}截图`);
+        $$('.gallery-choice', gallery).forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+      };
+      project.screenshots.forEach((shot, index) => {
+        const button = el('button', `${String(index + 1).padStart(2, '0')} / ${shot.label}`, 'gallery-choice');
+        button.type = 'button'; button.addEventListener('click', () => selectScreenshot(index)); gallery.append(button);
+      });
+      screenshot.after(gallery); selectScreenshot(0);
+    }
+    d.education.forEach(item => {
+      const row = el('div', undefined, 'journey-entry');
+      row.append(el('span', item.period, 'entry-period'), el('h3', item.school), el('p', item.degree));
+      if (item.detail) row.append(el('p', item.detail, 'education-detail'));
+      $('#education-list').append(row);
+    });
+    $('#internship-period').textContent = d.internship.period;
+    $('#internship-company').textContent = d.internship.company;
+    $('#internship-team').textContent = [d.internship.team, d.internship.role].filter(Boolean).join(' · ');
+    d.internship.bullets.forEach(value => {
+      const [title, text] = splitBullet(value); const row = el('li');
+      if (title) row.append(el('strong', title + '：'));
+      row.append(document.createTextNode(text)); $('#internship-bullets').append(row);
+    });
+    d.skills.forEach(group => {
+      const row = el('div', undefined, 'skill-row'); const heading = el('div');
+      heading.append(el('span', group.group, 'skill-path'), el('h3', group.label));
+      const items = el('div', undefined, 'skill-items'); group.items.forEach(item => items.append(el('span', item)));
+      row.append(heading, items); $('#skills-list').append(row);
+    });
   }
-  d.education.forEach(item => {
-    const row = el('div', undefined, 'journey-entry');
-    row.append(el('span', item.period, 'entry-period'), el('h3', item.school), el('p', item.degree));
-    if (item.detail) row.append(el('p', item.detail, 'education-detail'));
-    $('#education-list').append(row);
-  });
-  $('#internship-period').textContent = d.internship.period;
-  $('#internship-company').textContent = d.internship.company;
-  $('#internship-team').textContent = [d.internship.team, d.internship.role].filter(Boolean).join(' · ');
-  d.internship.bullets.forEach(value => {
-    const [title, text] = splitBullet(value); const row = el('li');
-    if (title) row.append(el('strong', title + '：'));
-    row.append(document.createTextNode(text)); $('#internship-bullets').append(row);
-  });
-  d.skills.forEach(group => {
-    const row = el('div', undefined, 'skill-row'); const heading = el('div');
-    heading.append(el('span', group.group, 'skill-path'), el('h3', group.label));
-    const items = el('div', undefined, 'skill-items'); group.items.forEach(item => items.append(el('span', item)));
-    row.append(heading, items); $('#skills-list').append(row);
-  });
 
   if ('IntersectionObserver' in window) {
     document.documentElement.classList.add('js');
@@ -242,11 +245,38 @@
   };
   $$('[data-model]').forEach(button => button.addEventListener('click', () => selectModel(button.dataset.model))); selectModel('improved');
   const dialog = $('#image-dialog'); let previousFocus;
-  $$('[data-image]').forEach(button => button.addEventListener('click', () => {
-    previousFocus = button; const img = $('img', button);
-    $('#lightbox-image').src = img.getAttribute('src'); $('#lightbox-image').alt = img.alt;
-    $('#image-dialog-title').textContent = button.dataset.caption; dialog.showModal();
+  $$('[data-image]').forEach(trigger => trigger.addEventListener('click', event => {
+    if (!dialog.showModal || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const preview = $('img', trigger);
+    let fullImage = $('#lightbox-image', dialog);
+    if (!fullImage) {
+      fullImage = el('img');
+      fullImage.id = 'lightbox-image';
+      $('.lightbox-toolbar', dialog).after(fullImage);
+    }
+    previousFocus = trigger;
+    fullImage.alt = preview.alt;
+    const previewUrl = preview.currentSrc || preview.src;
+    fullImage.src = previewUrl;
+    $('#image-dialog-title').textContent = trigger.dataset.caption;
+    const description = $('#image-dialog-description', dialog);
+    if (description) description.textContent = trigger.dataset.description;
+    dialog.showModal();
+    if (trigger.href && trigger.href !== previewUrl) {
+      const original = new Image();
+      original.onload = () => {
+        if (dialog.open && previousFocus === trigger) fullImage.src = original.src;
+      };
+      original.src = trigger.href;
+    }
   }));
+  // A failed optimized preview can still use its original PNG.
+  $$('picture > img').forEach(preview => {
+    const useOriginal = () => $('source', preview.parentElement)?.remove();
+    preview.addEventListener('error', useOriginal, {once:true});
+    if (preview.complete && preview.currentSrc && !preview.naturalWidth) useOriginal();
+  });
   $('#close-image').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); });
   dialog.addEventListener('close', () => previousFocus?.focus());
@@ -304,4 +334,5 @@
     if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) commandDialog.close();
     if (event.target.closest('a[href^="#"]')) commandDialog.close();
   });
+  document.documentElement.classList.add('portfolio-ready');
 })();
